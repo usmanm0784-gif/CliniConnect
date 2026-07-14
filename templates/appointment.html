@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Confirmation</title>
+</head>
+<body style="margin:0;padding:0;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f7fb;padding:30px 0;">
+    <tr>
+        <td align="center">
+
+            <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:10px;overflow:hidden;">
+
+                <!-- Header -->
+                <tr>
+                    <td align="center" style="background:#2F80ED;padding:25px;color:white;">
+                        <h1 style="margin:0;">CliniConnect</h1>
+                        <p style="margin-top:8px;">Appointment Confirmation</p>
+                    </td>
+                </tr>
+
+                <!-- Body -->
+                <tr>
+                    <td style="padding:35px;">
+
+                        <h2>Hello {{name}},</h2>
+
+                        <p>
+                            Your appointment has been <strong>successfully booked</strong>.
+                        </p>
+
+                        <table width="100%" cellpadding="10" style="background:#f7f9fc;border:1px solid #e5e5e5;border-radius:6px;">
+
+                            <tr>
+                                <td><strong>Doctor</strong></td>
+                                <td>{{doctor_name}}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Patient</strong></td>
+                                <td>{{patient_name}}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Date</strong></td>
+                                <td>{{appointment_date}}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Time</strong></td>
+                                <td>{{appointment_time}}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Appointment ID</strong></td>
+                                <td>{{appointment_id}}</td>
+                            </tr>
+
+                        </table>
+
+                        <p style="margin-top:25px;">
+                            Please arrive a few minutes before your scheduled appointment.
+                        </p>
+
+                        <p>
+                            If you need to reschedule or cancel, please log in to your CliniConnect account.
+                        </p>
+
+                        <p>
+                            Thank you for choosing <strong>CliniConnect</strong>.
+                        </p>
+
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td align="center" style="padding:20px;background:#f1f3f6;color:#777;font-size:13px;">
+                        © {{year}} CliniConnect. All rights reserved.
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
+```
