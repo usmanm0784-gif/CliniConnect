@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, Field
 from datetime import time, date
 
 
@@ -20,10 +20,22 @@ class AvailabilitySlot(BaseModel):
 
         return end_time
     
-class DoctorUpdate(BaseModel):
+class Doctor(BaseModel):
+    title: str
+    name: str
+    phone_number: str
+    email: str
+    city: str
+    password: str = Field(min_length=8)
     specialization: str | None = None
     experience: int | None = None
-    availability: list[AvailabilitySlot] | None = None
     bio: str | None = None
 
-
+class DoctorUpdate(BaseModel):
+    title: str | None = None
+    name: str | None = None
+    phone_number: str | None = None
+    city: str | None = None
+    specialization: str | None = None
+    experience: int | None = None
+    bio: str | None = None

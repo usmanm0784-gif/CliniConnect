@@ -1,1 +1,17 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Logs
+logs/
+*.log
+
+# Google API credentials
+credentials.json
+token.json
+
+# Environment variables
 .env

@@ -1,11 +1,11 @@
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException, status, Depends, BackgroundTasks
 from auth import read_profile
-from models.doctorupdatemodel import AvailabilitySlot
+from models.doctor import AvailabilitySlot
 from logger import logger
 from datetime import datetime
 from db import get_db_connection
-from .email_sender import send_appointment_email
+from .confirmation_email import send_appointment_email
 
 router = APIRouter()
 
@@ -16,7 +16,7 @@ doctors_collection = db["doctors"]
 patients_collection = db["patients"]
 
 # patient can book appointment
-@router.post("/book_appointment", status_code=status.HTTP_201_CREATED, summary="Book Appointment")
+@router.post("/book_appointment", summary="Book Appointment")
 async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str,background_tasks: BackgroundTasks,
                            current_user: dict = Depends(read_profile)):
 
@@ -27,20 +27,12 @@ async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str
         )
 
     # Check doctor exists
-    doctor = doctors_collection.find_one(
-        {
-            "email": doctor_email,
-            "role": "doctor"
-        }
-    )
+    doctor = doctors_collection.find_one({"email": doctor_email})
 
     patient = patients_collection.find_one({"email": current_user["email"]})
 
     if not doctor:
-        raise HTTPException(
-            status_code=404,
-            detail="Doctor not found"
-        )
+        raise HTTPException(status_code=404, detail="Doctor not found")
 
 
     date_str = appointment_data.date.isoformat()
@@ -63,10 +55,7 @@ async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str
 
 
     if not slot or slot["status"] != "available":
-        raise HTTPException(
-            status_code=400,
-            detail="This appointment slot is not available"
-        )
+        raise HTTPException(status_code=400, detail="This appointment slot is not available")
 
 
     # Update slot status
@@ -87,10 +76,7 @@ async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str
 
     if result.modified_count == 0:
         logger.error("Failed to update slot status")
-        raise HTTPException(
-            status_code=400,
-            detail="Unable to book appointment"
-        )
+        raise HTTPException(status_code=400, detail="Unable to book appointment")
 
     # Email to patient
     background_tasks.add_task(
@@ -115,9 +101,7 @@ async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str
         appointment_time=f"{start_time} - {end_time}",
         appointment_id=str(slot["_id"]),
     )
-    logger.info(
-        f"Appointment booked by {current_user['email']} with doctor {doctor_email}"
-    )
+    logger.info(f"Appointment booked by {current_user['email']} with doctor {doctor_email}")
 
 
     return {
@@ -132,7 +116,7 @@ async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str
     }
 
 # patient can view their appointments
-@router.get("/my_appointments", status_code=status.HTTP_200_OK, summary="View My Appointments")
+@router.get("/my_appointments", summary="View My Appointments")
 async def view_my_appointments(current_user: dict = Depends(read_profile)):
 
     appointments = list(slots_collection.find(
