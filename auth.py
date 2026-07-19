@@ -17,7 +17,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
 def read_profile(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        role = payload.get("sub")
+        role = payload.get("role")
         email = payload.get("email")
         return {"role": role, "email": email}
     except JWTError:

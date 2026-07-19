@@ -1,5 +1,4 @@
-from pymongo import MongoClient
-from pymongo.errors import PyMongoError
+from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 import os
 
@@ -15,12 +14,12 @@ if not MONGO_URI:
 _client = None
 _db = None
 
+
 def get_db_connection():
     global _client, _db
-    try:
-        if _db is None:
-            _client = MongoClient(MONGO_URI)
-            _db = _client[DB_NAME]
-        return _db
-    except PyMongoError as e:
-        raise RuntimeError(f"Database connection failed: {e}")
+
+    if _db is None:
+        _client = AsyncIOMotorClient(MONGO_URI)
+        _db = _client[DB_NAME]
+
+    return _db
