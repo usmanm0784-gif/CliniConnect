@@ -14,7 +14,7 @@ env = Environment(
 )
 
 
-def send_appointment_email(receiver_email: str, name: str, doctor_name: str, patient_name: str, appointment_date: str,
+def send_appointment_meeting_email(receiver_email: str, name: str, doctor_name: str, patient_name: str, appointment_date: str,
     appointment_time: str, appointment_id: str, appointment_link: str):
 
     template = env.get_template("google_meet_email.html")
