@@ -4,6 +4,7 @@ from datetime import datetime
 # Connect to database
 db = get_db_connection() 
 patients_collection = db["patients"]  
+slots_collection = db["slots"]
 
 async def get_patient(email):
     patient = await patients_collection.find_one({"email": email})
@@ -24,3 +25,14 @@ async def add_notes(email, notes, doctor_email, datetime):
         }
     )
     return result.modified_count
+
+async def get_appointments(email, status):
+
+    appointments = await slots_collection.find(
+        {
+            "patient_email": email,
+            "status": status
+        }
+    ).to_list(length= None)
+
+    return appointments

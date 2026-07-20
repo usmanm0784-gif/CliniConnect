@@ -22,7 +22,7 @@ from db_functions.patient import(
 )
 
 from .google_meet_service import create_google_meet
-from core_response.api_response import api_response
+from core_response.response import api_response
 
 async def get_doctors():
     try:

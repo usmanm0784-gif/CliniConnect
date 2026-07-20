@@ -1,6 +1,6 @@
 from logger import logger
 from fastapi import status
-from core_response.api_response import api_response
+from core_response.response import api_response
 from .confirmation_email import send_appointment_email
 
 from db_functions.doctor import(
@@ -10,7 +10,8 @@ from db_functions.doctor import(
 )
 
 from db_functions.patient import(
-    get_patient
+    get_patient,
+    get_appointments
 )
 
 async def appointment_booking(appointment_data, doctor_email, background_tasks, current_user):
@@ -106,4 +107,46 @@ async def appointment_booking(appointment_data, doctor_email, background_tasks, 
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,
             message="An error occurred while booking appointment",
+        )
+
+async def fetch_appointments(current_user):
+    try:
+        appointments = await get_appointments(current_user["email"], status="booked")
+        if not appointments:
+            return api_response(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    success=0,
+                    message="no appointments found"
+                )
+        for appointment in appointments:
+            doctor = await get_doctor(appointment["doctor_email"])
+            appointment["doctor_name"] = doctor["name"] if doctor else "Unknown"
+
+        logger.info(f"Appointments retrieved for patient {current_user['email']}")
+        appointments_data = [
+            {
+                "appointment_id": str(appointment["_id"]),
+                "doctor_name": appointment.get("doctor_name", "Unknown"),
+                "doctor_email": appointment.get("doctor_email"),
+                "date": appointment["date"],
+                "start_time": appointment["start_time"],
+                "end_time": appointment["end_time"],
+                "status": appointment["status"]
+            }
+            for appointment in appointments
+        ]
+
+        return api_response(
+                    status_code=status.HTTP_200_OK,
+                    success=1,
+                    message="fetching appointments successfully",
+                    data= {
+                        "appointments" : appointments_data
+                    }
+                )
+    except Exception as e:
+        return api_response(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            success=0,
+            message="An error occurred while fetching appointments of patient",
         )
