@@ -1,6 +1,6 @@
 from logger import logger
 from fastapi import status
-from core_response.response import api_response
+from utils.core_response import api_response
 from .confirmation_email import send_appointment_email
 
 from db_functions.doctor import(

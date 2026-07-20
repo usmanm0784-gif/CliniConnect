@@ -1,4 +1,4 @@
-from db import get_db_connection   
+from core.db import get_db_connection   
 
 
 # Connect to database

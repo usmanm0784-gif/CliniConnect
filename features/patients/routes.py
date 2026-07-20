@@ -1,10 +1,6 @@
-from bson import ObjectId
-from fastapi import APIRouter, HTTPException, status, Depends, BackgroundTasks
-from auth import read_profile
+from fastapi import APIRouter, Depends, BackgroundTasks
+from core.auth import read_profile
 from models.doctor import AvailabilitySlot
-from logger import logger
-from datetime import datetime
-from db import get_db_connection
 from .v1.confirmation_email import send_appointment_email
 
 from .v1.patient import(
@@ -13,12 +9,6 @@ from .v1.patient import(
 )
 
 router = APIRouter()
-
-db = get_db_connection()
-users_collection = db["users"]
-slots_collection = db["slots"]
-doctors_collection = db["doctors"]
-patients_collection = db["patients"]
 
 # patient can book appointment
 @router.post("/book_appointment", summary="Book Appointment")

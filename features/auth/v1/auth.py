@@ -9,8 +9,8 @@ from datetime import timedelta
 from fastapi import status
 from logger import logger
 
-from auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
-from core_response.response import api_response
+from core.auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from utils.core_response import api_response
 
 async def doctor_signup(credentials):
     try:

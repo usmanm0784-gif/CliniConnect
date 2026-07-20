@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
-from db import get_db_connection   
+from core.db import get_db_connection   
 from models.doctor import AvailabilitySlot, DoctorUpdate
-from auth import read_profile
+from core.auth import read_profile
 
 from .v1.doctor import(
     get_doctors,

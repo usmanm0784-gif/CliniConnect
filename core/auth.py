@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from jose import jwt, JWTError, ExpiredSignatureError
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
-from config import SECRET_KEY, ALGORITHM
+from core.config import SECRET_KEY, ALGORITHM
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Token expiration time in minutes
 
