@@ -10,7 +10,7 @@ async def get_patient(email):
     patient = await patients_collection.find_one({"email": email})
     return patient
 
-async def add_notes(email, notes, doctor_email, datetime):
+async def add_notes(email, notes, doctor_email):
     # Update patient notes
     result = await patients_collection.update_one(
         {"email": email},
@@ -24,7 +24,7 @@ async def add_notes(email, notes, doctor_email, datetime):
             }
         }
     )
-    return result.modified_count
+    return result
 
 async def get_appointments(email, status):
 

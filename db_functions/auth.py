@@ -1,6 +1,5 @@
 from core.db import get_db_connection   
 
-
 # Connect to database
 db = get_db_connection()
 users_collection = db["users"]  
@@ -33,8 +32,7 @@ async def create_doctor(user_id, credentials):
         "city": credentials.city,
         "specialization": credentials.specialization
     })
-
-    return doctor_result.inserted_id
+    return doctor_result
 
 async def create_patient(user_id, credentials):
     patient_result = await patients_collection.insert_one({
@@ -44,5 +42,5 @@ async def create_patient(user_id, credentials):
         "email": credentials.email
     })
 
-    return patient_result.inserted_id
+    return patient_result
     

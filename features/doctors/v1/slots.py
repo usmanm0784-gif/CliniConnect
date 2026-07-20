@@ -95,7 +95,7 @@ async def remove_slot(slot_id, current_user_role):
 
         result = await delete_slot(slot_obj_id, doctor["_id"])
 
-        if result == 0:
+        if result.deleted_count == 0:
             return api_response(
                 status_code=status.HTTP_404_NOT_FOUND,
                 success=0,

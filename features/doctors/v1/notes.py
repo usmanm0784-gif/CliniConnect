@@ -35,9 +35,9 @@ async def patient_notes(patient_email, notes ,current_user_role):
             )
 
         # Update patient notes
-        result = await add_notes(patient_email, notes, doctor["email"], datetime)
+        result = await add_notes(patient_email, notes, doctor["email"])
 
-        if result == 0:
+        if result.modified_count == 0:
             return api_response(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=0,

@@ -30,7 +30,7 @@ async def doctor_signup(credentials):
         # create doctor is returning inserted id
         doctor_result = await create_doctor(user_result.inserted_id, credentials)
 
-        if not doctor_result:
+        if not doctor_result.inserted_id:
             return api_response(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=0,

@@ -56,7 +56,7 @@ async def fetch_by_specialization(specialization):
     
 async def update_profile(updated_data, current_user):
     try:
-        print(current_user)
+        #print(current_user)
         if current_user["role"] != "doctor":
             return api_response(
                 status_code=status.HTTP_403_FORBIDDEN,

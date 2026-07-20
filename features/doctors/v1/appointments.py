@@ -116,7 +116,7 @@ async def update_appointment_status(appointment_status, slot_ID, current_user, b
         # Update MongoDB
         result = await update_slot(m_slot_id, update_data)
 
-        if result == 0:
+        if result.modified_count == 0:
             logger.error("Couldn't change appointment status")
             return api_response(
                     status_code=status.HTTP_400_BAD_REQUEST,

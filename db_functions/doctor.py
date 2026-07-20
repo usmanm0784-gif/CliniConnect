@@ -64,7 +64,7 @@ async def create_slot(doctor_id, doctor_email, date, start_time, end_time, statu
 
 async def delete_slot(slot_obj_id, doctor_id):
     result = await slots_collection.delete_one({"_id": slot_obj_id, "doctor_id": doctor_id})
-    return result.deleted_count
+    return result
 
 async def get_slots(doctor_id):
     slots = await slots_collection.find({"doctor_id": doctor_id},{"_id": 0}).to_list(length=None)
@@ -88,7 +88,7 @@ async def update_slot(m_slot_id, update_data):
             "$set": update_data
         }
     )
-    return result.modified_count
+    return result
 
 async def get_availabe_slot(doctor_id, appointment_data, start_time, end_time, status= "available"):
     # Find available slot
@@ -118,4 +118,4 @@ async def update_slot_status(slot_id, status, updated_status, email):
             }
         }
     )
-    return result.modified_count
+    return result

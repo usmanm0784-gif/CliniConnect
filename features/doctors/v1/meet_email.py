@@ -41,5 +41,4 @@ def send_appointment_meeting_email(receiver_email: str, name: str, doctor_name: 
             )
     except Exception as e:
         logger.exception(f"Failed to send email to {receiver_email}: {e}")
-        print(f"Failed to send email to {receiver_email}: {e}")
         return False

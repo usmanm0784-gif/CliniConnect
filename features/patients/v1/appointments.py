@@ -55,7 +55,7 @@ async def appointment_booking(appointment_data, doctor_email, background_tasks, 
         # Update slot status
         result = await update_slot_status(slot["_id"], appointment_status, updated_status, patient_email)
 
-        if result == 0:
+        if result.modified_count == 0:
             logger.error("Failed to update slot status")
             return api_response(
                 status_code=status.HTTP_400_BAD_REQUEST,
