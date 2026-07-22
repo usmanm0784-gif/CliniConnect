@@ -10,7 +10,7 @@ async def get_doctors_db():
     doctors = await doctors_collection.find({}, {"_id": 0}).to_list(length=None)
     return doctors
 
-async def get_doctors_by_specialization_db(specialization):
+async def get_doctors_by_specialization(specialization):
     doctors = await doctors_collection.find({"specialization": specialization}, {"_id": 0}).to_list(length=None)
     return doctors
 

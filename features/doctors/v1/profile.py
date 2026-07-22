@@ -2,7 +2,7 @@ from fastapi import status
 from logger import logger
 from db_functions.doctor import(
     get_doctors_db,
-    get_doctors_by_specialization_db,
+    get_doctors_by_specialization,
     get_doctor,
     update_doctor_data,
 )
@@ -33,7 +33,7 @@ async def get_doctors():
 
 async def fetch_by_specialization(specialization):
     try:
-        doctors = await get_doctors_by_specialization_db(specialization)
+        doctors = await get_doctors_by_specialization(specialization)
         #print(doctors)
         if not doctors:
             return api_response(
