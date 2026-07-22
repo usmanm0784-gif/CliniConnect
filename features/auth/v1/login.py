@@ -6,7 +6,7 @@ from datetime import timedelta
 from fastapi import status
 from logger import logger
 
-from core.auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from core.auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES, verify_password
 from utils.core_response import api_response
 
 async def login_user(credentials):
@@ -14,7 +14,7 @@ async def login_user(credentials):
         # Find user
         user = await get_user_by_email(credentials.email)
         #print(user)
-        if not user or not credentials.password == user["password"]:
+        if not user or not verify_password(credentials.password, user["password"]):
             return api_response(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 success=0,

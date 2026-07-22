@@ -6,6 +6,8 @@ from db_functions.auth import (
 
 from fastapi import status
 from logger import logger
+   
+from core.auth import hash_password
 
 from utils.core_response import api_response
 
@@ -20,10 +22,11 @@ async def doctor_signup(credentials):
                 message="Email already exists",
             )
 
-        # H
+        hashed_password = hash_password(credentials.password)
+
         user_result = await create_user(
             credentials.email,
-            credentials.password,
+            hashed_password,
             "doctor"
         )
 
@@ -50,7 +53,7 @@ async def doctor_signup(credentials):
             },
         )
     except Exception as e:
-        logger.error("error in getting doctors signup")
+        logger.error(f"error in getting doctors signup {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,

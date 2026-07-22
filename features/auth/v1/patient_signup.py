@@ -8,6 +8,7 @@ from fastapi import status
 from logger import logger
 
 from utils.core_response import api_response
+from core.auth import hash_password
 
 async def patient_signup(credentials):
     # Check if user already exists
@@ -19,7 +20,8 @@ async def patient_signup(credentials):
                 success=0,
                 message="Email already exists",
             )
-        user_result = await create_user(credentials.email, credentials.password, "patient")
+        hashed_password = hash_password(credentials.password)
+        user_result = await create_user(credentials.email, hashed_password, "patient")
         patient_id = user_result.inserted_id
 
         patient_result = await create_patient(patient_id, credentials)
