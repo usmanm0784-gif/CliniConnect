@@ -9,6 +9,7 @@ from logger import logger
 from core.auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES, verify_password
 from utils.core_response import api_response
 
+
 async def login_user(credentials):
     try:
         # Find user
@@ -41,7 +42,7 @@ async def login_user(credentials):
             }
         )
     except Exception as e:
-        logger.error("error in login users")
+        logger.error(f"error in login users {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,

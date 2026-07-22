@@ -10,6 +10,7 @@ from logger import logger
 from utils.core_response import api_response
 from core.auth import hash_password
 
+
 async def patient_signup(credentials):
     # Check if user already exists
     try:
@@ -44,7 +45,7 @@ async def patient_signup(credentials):
         )
 
     except Exception as e:
-        logger.error("error in signing up patients")
+        logger.error(f"error in signing up patients {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,

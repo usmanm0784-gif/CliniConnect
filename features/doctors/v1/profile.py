@@ -9,6 +9,7 @@ from db_functions.doctor import(
 
 from utils.core_response import api_response
 
+
 async def get_doctors():
     try:
         doctors = await get_doctors_db()
@@ -25,11 +26,13 @@ async def get_doctors():
             data=doctors,
         )
     except Exception as e:
+        logger.error(f"while getting doctors failed: {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,
             message="An error occurred while getting doctors",
         )
+
 
 async def fetch_by_specialization(specialization):
     try:
@@ -48,11 +51,13 @@ async def fetch_by_specialization(specialization):
             data=doctors
         )
     except Exception as e:
+        logger.error(f"while fetching doctors by specialization failed: {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,
             message= f"An error occurred while fetching doctors by specialization {specialization}",
         )
+    
     
 async def update_profile(updated_data, current_user):
     try:

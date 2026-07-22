@@ -12,6 +12,7 @@ from .v1.auth import(
 
 router = APIRouter()
 
+
 # SIGNUP ROUTE FOR DOCTOR
 @router.post("/signup/doctor", summary="Doctor Signup", description="Create a new doctor account")
 async def signup_doctor(credentials: Doctor):

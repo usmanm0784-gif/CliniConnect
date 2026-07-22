@@ -6,9 +6,11 @@ db = get_db_connection()
 patients_collection = db["patients"]  
 slots_collection = db["slots"]
 
+
 async def get_patient(email):
     patient = await patients_collection.find_one({"email": email})
     return patient
+
 
 async def add_notes(email, notes, doctor_email):
     # Update patient notes
@@ -25,6 +27,7 @@ async def add_notes(email, notes, doctor_email):
         }
     )
     return result
+
 
 async def get_appointments(email, status):
 

@@ -5,7 +5,6 @@ from email.mime.text import MIMEText
 
 from jinja2 import Environment, FileSystemLoader
 from core.config import (SMTP_SERVER, SMTP_PORT, SMTP_EMAIL,SMTP_PASSWORD)
-
 from logger import logger
 
 

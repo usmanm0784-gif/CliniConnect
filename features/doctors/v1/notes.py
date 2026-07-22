@@ -1,11 +1,10 @@
 from fastapi import status
-from datetime import datetime
 from logger import logger
 from db_functions.doctor import get_doctor
 
 from db_functions.patient import get_patient, add_notes
-
 from utils.core_response import api_response
+
 
 async def patient_notes(patient_email, notes ,current_user_role):
     try:

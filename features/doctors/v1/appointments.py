@@ -7,8 +7,8 @@ from db_functions.patient import get_patient
 
 from .google_meet_service import create_google_meet
 from utils.core_response import api_response
-
 from .meet_email import send_appointment_meeting_email
+
 
 async def update_appointment_status(appointment_status, slot_ID, current_user, background_tasks):
     try:

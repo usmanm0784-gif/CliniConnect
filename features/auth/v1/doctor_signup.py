@@ -8,8 +8,8 @@ from fastapi import status
 from logger import logger
    
 from core.auth import hash_password
-
 from utils.core_response import api_response
+
 
 async def doctor_signup(credentials):
     try:

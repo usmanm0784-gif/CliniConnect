@@ -5,7 +5,6 @@ from email.mime.text import MIMEText
 
 from jinja2 import Environment, FileSystemLoader
 from core.config import (SMTP_SERVER, SMTP_PORT, SMTP_EMAIL,SMTP_PASSWORD)
-
 from logger import logger
 
 
@@ -41,5 +40,4 @@ def send_appointment_email(receiver_email: str, name: str, doctor_name: str, pat
             )
     except Exception as e:
         logger.exception(f"Failed to send email to {receiver_email}: {e}")
-        print(f"Failed to send email to {receiver_email}: {e}")
         return False

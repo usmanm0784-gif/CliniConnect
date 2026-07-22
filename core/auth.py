@@ -8,11 +8,13 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Token expiration time in minutes
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 def create_access_token(data: dict, expires_delta: timedelta):
     to_encode = data.copy()
     expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
 
 def read_profile(token: str):
     try:
@@ -22,6 +24,7 @@ def read_profile(token: str):
         return {"role": role, "email": email}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
+
 
 # this function can be used to verify token validity   
 def verify_token(token: str):
@@ -35,8 +38,10 @@ def verify_token(token: str):
         # Token invalid in any other way
         raise JWTError
     
+
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
+
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(

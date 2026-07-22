@@ -15,6 +15,7 @@ from .v1.doctor import(
 
 router = APIRouter()
 
+
 # get all doctors
 @router.get("/all", summary="Get All Doctors", description="Retrieve a list of all doctors")
 async def get_all_doctors():
@@ -54,7 +55,7 @@ async def get_all_appointment_slots(doctor_email: str):
 async def add_patient_notes(patient_email: str,notes: str,current_user: dict = Depends(read_profile)):
     return await add_patient_notes_api(patient_email, notes, current_user)
 
-    
+
 @router.put("/appointment/status", summary="Change appointment status")
 async def change_status(appointment_status: str, slot_ID: str, background_tasks: BackgroundTasks, current_user: dict = Depends(read_profile),):
     return await change_status_api(appointment_status, slot_ID, current_user, background_tasks)

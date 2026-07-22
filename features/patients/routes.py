@@ -9,13 +9,15 @@ from .v1.patient import(
 
 router = APIRouter()
 
+
 # patient can book appointment
-@router.post("/book_appointment", summary="Book Appointment")
+@router.post("/book/appointment", summary="Book Appointment")
 async def book_appointment(appointment_data: AvailabilitySlot, doctor_email: str,background_tasks: BackgroundTasks,
                            current_user: dict = Depends(read_profile)):
     return await book_appointment_api(appointment_data, doctor_email, background_tasks, current_user)
 
+
 # patient can view their appointments
-@router.get("/my_appointments", summary="View My Appointments")
+@router.get("/appointments", summary="View My Appointments")
 async def view_my_appointments(current_user: dict = Depends(read_profile)):
     return await view_my_appointments_api(current_user)

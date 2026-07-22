@@ -14,6 +14,7 @@ from db_functions.patient import(
     get_appointments
 )
 
+
 async def appointment_booking(appointment_data, doctor_email, background_tasks, current_user):
     try:
         if current_user["role"] != "patient":
@@ -103,11 +104,13 @@ async def appointment_booking(appointment_data, doctor_email, background_tasks, 
                 }
             )
     except Exception as e:
+        logger.error(f"An error occurred while booking appointment {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,
             message="An error occurred while booking appointment",
         )
+
 
 async def fetch_appointments(current_user):
     try:
@@ -145,6 +148,7 @@ async def fetch_appointments(current_user):
                     }
                 )
     except Exception as e:
+        logger.error(f"An error occurred while fetching appointments of patient {e}")
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,

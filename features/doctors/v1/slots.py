@@ -12,6 +12,8 @@ from db_functions.doctor import(
 )
 
 from utils.core_response import api_response
+
+
 async def add_slot(available_timings, current_user_role):
     try:
         if current_user_role["role"] != "doctor":
@@ -22,7 +24,6 @@ async def add_slot(available_timings, current_user_role):
                 error_code="ACCESS_DENIED"
             )
         doctor = await get_doctor(current_user_role["email"])
-
 
         if not doctor:
             return api_response(
@@ -66,6 +67,7 @@ async def add_slot(available_timings, current_user_role):
             error_code="INTERNAL_SERVER_ERROR"
         )
     
+
 async def remove_slot(slot_id, current_user_role):
     try:
         if current_user_role["role"] != "doctor":
@@ -117,6 +119,7 @@ async def remove_slot(slot_id, current_user_role):
             message="An error occurred while removing appointment slots",
             error_code="INTERNAL_SERVER_ERROR"
         )
+    
     
 async def list_doctor_slots(email):
     try:

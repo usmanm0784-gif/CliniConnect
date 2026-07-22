@@ -6,11 +6,13 @@ users_collection = db["users"]
 patients_collection = db["patients"]  
 doctors_collection = db["doctors"]
 
+
 async def get_user_by_email(email: str):
 
     existing_user = await users_collection.find_one({"email": email})
 
     return existing_user
+
 
 async def create_user(email, password, role):
 
@@ -21,6 +23,7 @@ async def create_user(email, password, role):
     })
 
     return user_result
+
 
 async def create_doctor(user_id, credentials):
     doctor_result = await doctors_collection.insert_one({
@@ -33,6 +36,7 @@ async def create_doctor(user_id, credentials):
         "specialization": credentials.specialization
     })
     return doctor_result
+
 
 async def create_patient(user_id, credentials):
     patient_result = await patients_collection.insert_one({

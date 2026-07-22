@@ -6,17 +6,21 @@ db = get_db_connection()
 doctors_collection = db["doctors"]
 slots_collection = db["slots"]
 
+
 async def get_doctors_db():
     doctors = await doctors_collection.find({}, {"_id": 0}).to_list(length=None)
     return doctors
+
 
 async def get_doctors_by_specialization(specialization):
     doctors = await doctors_collection.find({"specialization": specialization}, {"_id": 0}).to_list(length=None)
     return doctors
 
+
 async def get_doctor(email):
     doctor = await doctors_collection.find_one({"email": email})
     return doctor
+
 
 async def update_doctor_data(updated_data, email):
 
@@ -30,6 +34,7 @@ async def update_doctor_data(updated_data, email):
     )
 
     return update
+
 
 async def slot_conflict(doctor_id, date_str, start_time, end_time):
     conflict = await slots_collection.find_one(
@@ -49,6 +54,7 @@ async def slot_conflict(doctor_id, date_str, start_time, end_time):
     )
     return conflict
 
+
 async def create_slot(doctor_id, doctor_email, date, start_time, end_time, status= "available"):
     slot = await slots_collection.insert_one(
         {
@@ -62,13 +68,16 @@ async def create_slot(doctor_id, doctor_email, date, start_time, end_time, statu
     )
     return slot
 
+
 async def delete_slot(slot_obj_id, doctor_id):
     result = await slots_collection.delete_one({"_id": slot_obj_id, "doctor_id": doctor_id})
     return result
 
+
 async def get_slots(doctor_id):
     slots = await slots_collection.find({"doctor_id": doctor_id},{"_id": 0}).to_list(length=None)
     return slots
+
 
 async def get_slot(m_slot_id, email):
     slot = await slots_collection.find_one(
@@ -78,6 +87,7 @@ async def get_slot(m_slot_id, email):
         }
     )
     return slot
+
 
 async def update_slot(m_slot_id, update_data):
     result = await slots_collection.update_one(
@@ -89,6 +99,7 @@ async def update_slot(m_slot_id, update_data):
         }
     )
     return result
+
 
 async def get_availabe_slot(doctor_id, appointment_data, start_time, end_time, status= "available"):
     # Find available slot
@@ -102,6 +113,7 @@ async def get_availabe_slot(doctor_id, appointment_data, start_time, end_time, s
         }
     )
     return slot
+
 
 async def update_slot_status(slot_id, status, updated_status, email):
     # Update slot status
