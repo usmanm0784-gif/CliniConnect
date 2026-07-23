@@ -34,6 +34,7 @@ async def update_doctor_profile(updated_data: DoctorUpdate,current_user: str = D
     return await update_doctor_profile_api(updated_data, current_user)
 
 
+# doctors can add appointment
 @router.post("/add/appointment", summary="Add Appointment Slots")
 async def add_appointment_slots(available_timings: list[AvailabilitySlot], current_user: dict = Depends(read_profile)):
     return await add_appointment_slots_api(available_timings, current_user)
