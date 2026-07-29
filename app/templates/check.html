@@ -1,0 +1,5 @@
+<script>
+  const ws = new WebSocket("ws://localhost:8000/chat/ws/6a671b6a0ffb75045bbfac64?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoicGF0aWVudCIsImVtYWlsIjoidXNtYW5tMDc4M0BnbWFpbC5jb20iLCJleHAiOjE3ODUxNDQ0MzZ9.kVB6KJxOn8_V8n0obOw6iKtqCMXm5_Aj9tszlcDxKnM");
+  ws.onmessage = (e) => console.log("received:", e.data);
+  ws.onopen = () => ws.send(JSON.stringify({content: "hello"}));
+</script>
