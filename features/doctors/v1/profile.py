@@ -110,6 +110,6 @@ async def update_profile(updated_data, current_user):
         return api_response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             success=0,
-            message="An error occurred while updating doctor profile",
-            error_code= f"{e}"
+            message=f"An error occurred while updating doctor profile: {e}"
         )
+

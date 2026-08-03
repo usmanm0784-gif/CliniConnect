@@ -21,6 +21,32 @@ from .ai_reply import generate_ai_reply
 AI_EMAIL = "ai-assistant"
 AI_ROLE = "ai"
 
+# indicator should show when this role just sent a message
+WAITING_COUNTERPART = {"patient": "doctor", "doctor": "patient"}
+
+
+async def broadcast_waiting(room_id: str, waiting_role: str):
+    # waiting_role is the one who just sent a message and is now waiting on a reply
+    await manager.broadcast(
+        room_id,
+        {
+            "type": "waiting",
+            "waiting_role": waiting_role,
+            "content": f"{waiting_role.capitalize()} is waiting for a reply",
+            "timestamp": datetime.now().isoformat(),
+        },
+    )
+
+
+async def broadcast_waiting_cleared(room_id: str):
+    await manager.broadcast(
+        room_id,
+        {
+            "type": "waiting_cleared",
+            "timestamp": datetime.now().isoformat(),
+        },
+    )
+
 # room_id -> pending asyncio task waiting to send the AI message
 pending_ai_timers: dict = {}
 
@@ -39,6 +65,7 @@ async def send_ai_reply(room_id: str, m_slot_id: ObjectId):
         reply_text = await generate_ai_reply(chat_history)
 
         message = await save_chat_message(m_slot_id, AI_EMAIL, AI_ROLE, reply_text)
+        await broadcast_waiting_cleared(room_id)
         await manager.broadcast(
             room_id,
             {
@@ -118,6 +145,9 @@ async def chat_service(websocket: WebSocket, slot_id: str, token: str):
 
             message = await save_chat_message(m_slot_id, user_email, user_role, content)
 
+            # this message is the reply the other side was waiting on, so clear that indicator first
+            await broadcast_waiting_cleared(room_id)
+
             await manager.broadcast(
                 room_id,
                 {
@@ -130,11 +160,15 @@ async def chat_service(websocket: WebSocket, slot_id: str, token: str):
                 },
             )
 
-            # patient spoke -> start the 2 minute countdown for the doctor to reply
-            # doctor spoke -> cancel any countdown, they've replied
+            # patient spoke then start the 2 minute countdown for the doctor to reply
+            # doctor spoke then cancel any countdown, they've replied
             cancel_ai_timer(room_id)
             if user_role == "patient":
                 pending_ai_timers[room_id] = asyncio.create_task(send_ai_reply(room_id, m_slot_id))
+
+            # now show that this sender is waiting on the other side to reply
+            if user_role in WAITING_COUNTERPART:
+                await broadcast_waiting(room_id, user_role)
     except WebSocketDisconnect:
         cancel_ai_timer(room_id)
         manager.disconnect(room_id, websocket)

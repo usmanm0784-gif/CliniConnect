@@ -4,7 +4,7 @@ from logger import logger
 
 
 class ConnectionManager:
-    """Tracks active websocket connections grouped by slot_id (the 'chat room')."""
+    """Tracks active websocket connections grouped by slot_id"""
 
     def __init__(self):
         self.active_connections: Dict[str, List[WebSocket]] = {}
